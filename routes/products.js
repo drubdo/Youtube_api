@@ -2,6 +2,28 @@ const { Product, validate } = require('../models/product');
 const express = require("express");
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+    try {
+    const products = await Product.find();
+    return res.send(products);
+    } catch (ex) {
+    return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+   });
+
+   router.get('/:id', async (req, res) => {
+    try {
+   
+    const product = await Product.findById(req.params.id);
+    if (!product)
+    return res.status(400).send(`The product with id "${req.params.id}" d
+   oes not exist.`);
+    return res.send(product);
+    } catch (ex) {
+    return res.status(500).send(`Internal Server Error: ${ex}`);
+    }
+   });
+
 router.post("/", async (req, res) => {
   try {
     const { error } = validate(req.body);
@@ -19,4 +41,5 @@ router.post("/", async (req, res) => {
     return res.status(500).send(`Internal Server Error: ${ex}`);
   }
 });
+
 module.exports = router;

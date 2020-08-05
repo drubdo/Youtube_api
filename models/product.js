@@ -23,5 +23,4 @@ const productSchema = new mongoose.Schema({
    exports.Product = Product;
    exports.validate = validateProduct;
    exports.productSchema = productSchema;
-   
-   module.exports = Product;
+
