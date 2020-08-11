@@ -1,0 +1,33 @@
+const mongoose = require('mongoose');
+const Joi = require('joi');
+
+const replySchema = new mongoose.Schema({
+    commentId: { type: String, required: true },
+    comment: { type: String, required: true },
+    likes: { type: Number, required: false },
+    dislikes: { type: Number, required: false }
+});
+
+const commentSchema = new mongoose.Schema({
+    youtubeId: { type: String, required: true },
+    comment: { type: String, required: true },
+    likes: { type: Number, required: false },
+    dislikes: { type: Number, required: false },
+    replies: { type: [replySchema], default: [] },
+});
+const Comment = mongoose.model('Comment', commentSchema);
+
+function validateComment(comment) {
+    const schema = Joi.object({
+        youtubeId: Joi.string().required(),
+        comment: Joi.string().required(),
+        likes: Joi.number(),
+        dislikes: Joi.number()
+    });
+    return schema.validate(comment);
+}
+exports.Comment = Comment;
+exports.validate = validateComment;
+exports.commentSchema = commentSchema;
+
+
