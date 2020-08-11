@@ -5,6 +5,9 @@ const products = require('./routes/products');
 const users = require('./routes/users');
 const comments = require('./routes/comments');
 
+var cors = require('cors');
+app.use(cors());
+
 connectDB();
 
 app.use(express.json());
